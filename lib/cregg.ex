@@ -1,0 +1,2 @@
+defmodule Cregg do
+end

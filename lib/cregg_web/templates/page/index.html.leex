@@ -1,0 +1,29 @@
+<style>
+  .egg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    right: 0;
+  }
+
+  .egg:hover {
+    cursor: pointer;
+  }
+
+  .egg, .egg:hover, .egg:active, .egg:focus {
+    border: none;
+    background: none;
+    outline: none;
+  }
+</style>
+
+<div style="text-align: center;">
+  <div style="display: inline-block; position: relative;">
+    <img class="egg_image" src="<%= @egg %>">
+    <button phx-click="crack" class="egg"></button>
+  </div>
+
+  <div>
+    <%= @count %> cracks
+  </div>
+</div>
