@@ -1,11 +1,8 @@
 use Mix.Config
 
-config :cregg,
-  ecto_repos: [Cregg.Repo]
-
 config :cregg, CreggWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "w99B3bt1CUTvkQ6vKu4WM6vWzviClCssLK2M3KnUzNBI0I/f1L4m+I6dKsT36Iq8",
+  secret_key_base: "ck9KA3jWCeqTYaLtEhH3Vj+SDuGi0tVt4MtvrbSfK3ZW9DRMog1K/UUQ8aGF6fXS",
   render_errors: [view: CreggWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Cregg.PubSub, adapter: Phoenix.PubSub.PG2],
   live_view: [

@@ -3,7 +3,7 @@ defmodule Cregg.Application do
 
   def start(_type, _args) do
     children = [
-      Cregg.Repo,
+      Cregg.Supervisor,
       CreggWeb.Endpoint
     ]
 

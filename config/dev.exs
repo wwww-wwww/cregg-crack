@@ -1,13 +1,5 @@
 use Mix.Config
 
-config :cregg, Cregg.Repo,
-  username: "cregg",
-  password: "cregg",
-  database: "cregg",
-  hostname: "192.168.1.51",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
 config :cregg, CreggWeb.Endpoint,
   http: [port: 17002],
   debug_errors: true,

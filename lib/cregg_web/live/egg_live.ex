@@ -1,25 +1,20 @@
 defmodule CreggWeb.EggLive do
   use Phoenix.LiveView
-
-  import Ecto.Query, only: [from: 2]
-
-  alias Cregg.Repo
-  alias Cregg.Cracks
-
+  
   def render(assigns) do
     CreggWeb.PageView.render("index.html", assigns)
   end
   
   def mount(_session, socket) do
     if connected?(socket), do: Process.send_after(self(), :tick, 1000)
-    cracks = get_cracks().cracks
+    cracks = Cregg.Cracks.get_cracks(Cracks)
     {:ok, assign(socket, count: cracks, egg: get_egg(cracks))}
   end
   
   def handle_info(:tick, %{assigns: %{count: count, egg: egg}} = socket) do
     Process.send_after(self(), :tick, 1000)
-
-    case get_cracks().cracks do
+    
+    case Cregg.Cracks.get_cracks(Cracks) do
       ^count -> # no new cracks
         {:noreply, socket}
       cracks ->
@@ -33,10 +28,9 @@ defmodule CreggWeb.EggLive do
   end
   
   def handle_event("crack", _, %{assigns: %{egg: egg}} = socket) do
-    id = get_cracks().id
-    from(cracks in Cracks, update: [inc: [cracks: 1]]) |> Repo.update_all([])
-    
-    cracks = get_cracks().cracks
+    Cregg.Cracks.add_crack(Cracks)
+
+    cracks = Cregg.Cracks.get_cracks(Cracks)
 
     case get_egg(cracks) do
       ^egg -> # no new egg
@@ -46,18 +40,9 @@ defmodule CreggWeb.EggLive do
     end
   end
 
-  defp get_cracks() do
-    case Repo.one(Cracks) do
-      nil ->
-        Repo.insert(%Cracks{cracks: 0})
-      cracks ->
-        cracks
-    end
-  end
-
   defp get_egg(cracks) do
     n = (cracks / 1000) |> Kernel.trunc
-    if n >= 1000 do # cregg has been cracked
+    if n >= 1000 do # cregg is cracked
       "/images/cregg.webp"
     else
       "/images/egg#{n}.webp"
